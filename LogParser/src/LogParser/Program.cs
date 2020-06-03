@@ -18,7 +18,7 @@ namespace LogParser
 
             commandInput.getCommandinput(args);
 
-            if (!CommandInput.CheckLogDir(commandInput.logFilePath))
+            if (!validations.getInputDirectoryStatus(commandInput))
                 return;
 
             ParseLogFile parseLogFile = new ParseLogFile();

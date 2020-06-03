@@ -36,6 +36,9 @@ namespace LogParser
                             this.logFilePath = args[++index];
                             isLogDir = true;
                         }
+                        else{
+                            ++index;
+                        }
                         break;
 
                     case CommandInput.ouputDir:
@@ -43,6 +46,9 @@ namespace LogParser
                         {
                             this.csvFilePath = args[++index];
                             isCsvDir = true;
+                        }
+                        else{
+                            ++index;
                         }
                         break;
 
@@ -59,7 +65,8 @@ namespace LogParser
                         Console.WriteLine("Invalid input Paramter Passed");
                         CommandInput.showUsage();
                         System.Environment.Exit(0);
-                        break;                }
+                        break;
+                }
 
             }
             return this;
@@ -81,7 +88,7 @@ namespace LogParser
             Console.WriteLine("\n Show Usage:\n");
             Console.WriteLine("Usage: logParser --log-dir <dir> --log-level <level> --csv <out>");
             Console.WriteLine("\t --log-dir   Directory to parse recursively for .log files");
-            Console.WriteLine("\t--csv       Out file-path (absolute/relative)");
+            Console.WriteLine("\t --csv-dir   Out file-path (absolute/relative)");
         }
 
     }
@@ -97,5 +104,20 @@ namespace LogParser
             }
             return true;
         }
+
+        public Boolean getInputDirectoryStatus(CommandInput commandInput)
+        {
+
+            if (commandInput.logFilePath == null || commandInput.csvFilePath == null ||
+                            !CommandInput.CheckLogDir(commandInput.logFilePath))
+            {
+                Console.WriteLine("Please Enter necessary and correct directory path");
+                return false;
+            }
+            return true;
+
+        }
+
+
     }
 }

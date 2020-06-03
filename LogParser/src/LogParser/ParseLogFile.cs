@@ -22,6 +22,7 @@ namespace LogParser
                                 storeAllLogs.Add(line);
                         }
                     }
+                    Console.WriteLine($"{file} parse successfull  !!!");
                 }
                 catch (IOException e)
                 {

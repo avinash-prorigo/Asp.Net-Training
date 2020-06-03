@@ -27,29 +27,38 @@ namespace LogParser
         public string getLogLevel(string logLine)
         {
             string logLevel = Regex.Match(logLine, @"(?<=^(\S+\s){2})\S+").ToString();
+            if (logLevel.Contains(":")){
+                string[] logLevelPart = logLevel.Split(":");
+                return logLevelPart[0];
+            }
             return logLevel;
         }
         public string getDescription(string logLine)
         {
             string[] fields = logLine.Split(":.");
-            return ":." + fields[1].Trim();
+            if (fields.Length >= 2)
+                return ":." + fields[1].Trim();
+            return null;
         }
 
         public List<ProcessLogcontent> getCsvCompliantContent(List<string> logLines)
         {
             List<ProcessLogcontent> CsvContents = new List<ProcessLogcontent>();
-            
+
             foreach (var line in logLines)
             {
-                try{
-                var csvContent = new ProcessLogcontent();
-                csvContent.Level = csvContent.getLogLevel(line);
-                csvContent.Date = csvContent.getdate(line);
-                csvContent.Time = csvContent.getTime(line);
-                csvContent.Description = csvContent.getDescription(line);
+                try
+                {
+                    var csvContent = new ProcessLogcontent();
+                    csvContent.Level = csvContent.getLogLevel(line);
+                    csvContent.Date = csvContent.getdate(line);
+                    csvContent.Time = csvContent.getTime(line);
+                    csvContent.Description = csvContent.getDescription(line);
 
-                CsvContents.Add(csvContent);
-                }catch(Exception e){
+                    CsvContents.Add(csvContent);
+                }
+                catch (Exception e)
+                {
                     Console.WriteLine($"{e.Message}");
                 }
             }
